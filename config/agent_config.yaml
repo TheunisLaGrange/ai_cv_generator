@@ -1,0 +1,23 @@
+# =====================================================================
+# AGENT PLATFORM SECURITY CREDENTIALS & RULES
+# =====================================================================
+agent:
+  name: "compliance_gemini_agent"
+  version: "1.0.0"
+
+llm:
+  planner_model: "gemini-3.8-flash"   
+  worker_model: "gemini-3.6-flash"    
+  temperature: 0.0
+
+throttling:
+  self_scheduling_delay: 2
+  max_retries_per_step: 3
+
+diagnostics:
+  log_level: "DEBUG"
+  enable_post_mortem: true
+
+# 🌟 DEVELOPMENT PROFILE CONTROLS
+# Toggle this flag to switch between cached and live environments instantly
+enforce_local_cache: false

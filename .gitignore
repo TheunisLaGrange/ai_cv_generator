@@ -1,0 +1,19 @@
+# Secrets and Environment Variables
+.env
+
+# Personal User Data & Certificates
+User_Data/
+Output/
+Output_pdf/
+Qualification_pdf/
+
+# AI Cache & Logs
+.data_cache/
+target.json
+
+# Python & IDE Artifacts
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.vscode/

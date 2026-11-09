@@ -1,0 +1,9 @@
+{
+  "output_file_prefix": "Alex_Mercer",
+  "default_full_name": "ALEX MERCER",
+  "default_profession": "Industrial Electrician",
+  "certificates": [
+    "Sample_Trade_Test_Certificate.pdf",
+    "Sample_Safety_Certificate.pdf"
+  ]
+}

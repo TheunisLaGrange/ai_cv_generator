@@ -1,0 +1,41 @@
+{
+  "Contact Details": {
+    "Full Name": "ALEX MERCER",
+    "Profession": "Industrial Electrician",
+    "Address": "42 Industrial Way, Metro City, 1000",
+    "Cell": "+1 (555) 019-2834",
+    "Mail": "alex.mercer.example@outlook.com"
+  },
+  "Professional Profile": [
+    "Trade Tested Industrial Electrician with over 8 years of hands-on experience maintaining high-volume manufacturing equipment.",
+    "Skilled in rapid electrical fault finding, preventative maintenance schedules, and PLC troubleshooting to minimize plant downtime.",
+    "Experienced in control panel wiring, machinery commissioning, and strict adherence to factory safety regulations.",
+    "Reliable team player accustomed to working shifts and collaborating with production staff in fast-paced environments."
+  ],
+  "Key Skills and Technical Expertise": [
+    "Electrical fault finding, diagnostics, and emergency breakdown repairs on production machinery.",
+    "Siemens and Allen Bradley PLC troubleshooting, I/O checks, and basic ladder logic modifications.",
+    "Preventative and routine maintenance inspections (TPM) and annual plant shutdown execution.",
+    "Control panel assembly, reading electrical schematics, and industrial sensor calibration.",
+    "Industrial networking diagnostics (Profibus, Profinet, Ethernet/IP).",
+    "Strict compliance with electrical safety standards, lockout/tagout (LOTO), and 5S workshop housekeeping."
+  ],
+  "Professional Experience": [
+    "Senior Maintenance Electrician at Apex Manufacturing: Led shift electrical maintenance across automated packaging and assembly lines, reducing unscheduled downtime through proactive root-cause diagnostics.",
+    "Plant Electrician at Horizon Steel & Foundry: Executed high-voltage motor maintenance, crane control repairs, and scheduled shutdown overhauls while maintaining zero safety incidents.",
+    "Electrical Apprentice at Metro Automotive Assembly: Completed trade qualification while supporting robotic welding cells, conveyor drives, and preventative maintenance logs."
+  ],
+  "Education & Certifications": [
+    "National Trade Test Certificate – Electrician.",
+    "N4–N6 Technical Certificates in Electrotechnology and Industrial Electronics.",
+    "Occupational Health & Safety (OHS) and Lockout/Tagout Certification."
+  ],
+  "Core Competencies": [
+    "Calm, methodical problem-solving under production pressure.",
+    "Independent shift operation and clear handover reporting.",
+    "Workshop organization, cost control, and preventative equipment care."
+  ],
+  "Languages": [
+    "Fluent in English."
+  ]
+}
