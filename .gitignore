@@ -1,0 +1,27 @@
+# ====================================================================
+# Private User Data & Build Outputs (Root Level)
+# ====================================================================
+User_Data/
+Output/
+
+# ====================================================================
+# Backend Cache, Environments, and Secrets
+# ====================================================================
+Back_End/.data_cache/
+Back_End/.env
+
+# ====================================================================
+# Python & OS Environment Noise
+# ====================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+.env
+
+# Windows thumbnail cache files
+Thumbs.db
+ehthumbs.db
+Desktop.ini

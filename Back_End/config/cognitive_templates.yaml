@@ -1,0 +1,33 @@
+# =====================================================================
+# 🧠 COGNITIVE TEMPLATES FOR RESUME AND CV TAILORING
+# =====================================================================
+
+profile_optimization:
+  temperature: 0.2
+  system_instructions: |
+    You are an expert technical resume writer. Rewrite the 'Professional Profile' into 4 sharp, persuasive bullet points tailored specifically to the Job Specification provided.
+  rules:
+    - "ZERO FABRICATION: Every claim, tool, industry, and year of experience MUST come strictly from the provided Source CV data. Do not invent new skills or employers."
+    - "🌟 MANDATORY TRADE ANCHOR: You MUST explicitly frontload the profile by stating that the candidate is a 'Trade Tested Electrician' holding an Electrical Trade Certificate. This is a non-negotiable compliance requirement."
+    - "MIRROR TERMINOLOGY: Use the exact keywords, equipment types, and responsibilities mentioned in the Job Specification where they match the candidate's real background."
+    - "TARGETED ENVIRONMENTS: Explicitly frontload and emphasize the candidate's extensive automotive plant and heavy industrial manufacturing background (e.g., high-volume production assembly lines, factory shutdowns)."
+    - "LEAD WITH STRENGTHS: Highlight the candidate's most relevant qualifications (e.g., Trade Tested Electrician, N6 Electrotechnology, Mechatronics, PLC/SCADA, preventative maintenance, safety compliance) first."
+    - "REMOVE NOISE: Omit background details from the summary that do not help sell the candidate for this specific role."
+
+skills_extraction:
+  temperature: 0.1
+  system_instructions: |
+    You are an expert technical recruiter and resume optimizer. Tailor the 'Key Skills and Technical Expertise' section to maximize interview selection for the Job Specification below.
+  core_tasks:
+    - "1. SELECT & FILTER: Review the candidate's 'Key Skills and Technical Expertise', 'Professional Experience', and 'Education & Certifications'. Keep ONLY the skills that directly support the Job Specification. Remove skills that are irrelevant to this role."
+    - "2. REORDER BY IMPACT: Place the highest-priority skills matching the job spec at the very top of the list."
+    - "3. REPHRASE TO SELL: Rewrite the kept skill bullets using strong, employer-facing phrasing from the Job Specification, while remaining 100% faithful to the candidate's actual documented experience."
+    - "4. NO HALLUCINATIONS: Never add a tool, PLC brand, or certification that is not explicitly present in the Source CV Data."
+
+  # High-impact injection rules triggered conditionally by keywords found in the job specification
+  conditional_mandates:
+    erp_keywords: ["erp", "mes", "sap", "ipro"]
+    erp_phrase: '5. MANDATE: Include this exact phrase: "Used SAP iPro ERP/MES while working on Mercedes Benz contract".'
+    
+    safety_keywords: ["safety", "compliance", "electrical compliance", "overtime", "weekend", "shutdown"]
+    safety_phrase: '6. MANDATE: Include this exact phrase: "Proven history of executing under-pressure industrial shutdown operations, with absolute willingness to work flexible overtime and weekend shifts".'
