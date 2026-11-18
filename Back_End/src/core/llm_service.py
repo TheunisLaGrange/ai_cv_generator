@@ -66,7 +66,9 @@ class LLMService:
             raw_experience_only = my_cv_data.get("Professional Experience", [])
 
             if cache_enforced:
-                static_cache_path = self.cache_dir / "my_cache.json"
+                # 🎯 FIXED: Look in .data_cache/ instead of .data_cache/cache/
+                static_cache_path = self.cache_dir.parent / "my_cache.json"
+                
                 data_source_label = f"STATIC CACHE ({static_cache_path.name})"
                 print(f"🎯 Configuration Mandate: Local Cache Enforced. Loading: {static_cache_path.name}")
                 with open(static_cache_path, "r", encoding="utf-8") as f:

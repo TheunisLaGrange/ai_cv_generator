@@ -1,0 +1,70 @@
+import os
+import sys
+import asyncio
+import yaml
+from pathlib import Path
+from dotenv import load_dotenv
+
+# =====================================================================
+# 🔬 DETERMINISTIC TIERS WORKSPACE ANCHORING
+# =====================================================================
+BACKEND_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = BACKEND_DIR.parent
+
+# Inject paths into runtime lookups to allow seamless cross-tier package visibility
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+if str(BACKEND_DIR) not in sys.path:
+    sys.path.insert(1, str(BACKEND_DIR))
+
+# Securely bind local environment credentials
+load_dotenv(dotenv_path=PROJECT_ROOT / ".env")
+
+# =====================================================================
+# 📦 UNIFIED ROOT MODULE IMPORTS
+# =====================================================================
+from src.core.llm_service import LLMService
+from src.diagnostics.telemetry import StepTrace
+
+async def run_sandbox_validation():
+    print("🔬 Sandbox Environment: Spawning core system orchestrator...")
+    
+    # Resolve the configuration file location across tiers
+    # 🎯 FIXED PATH: Target the real physical folder inside Back_End
+    absolute_config_path = BACKEND_DIR / "config" / "agent_config.yaml"
+
+    print(f"🎯 Loading configuration blueprint from: {absolute_config_path}")
+    
+    if not absolute_config_path.exists():
+        print(f"❌ CRITICAL CONFIG CONFIGURATION NOT FOUND: {absolute_config_path}")
+        sys.exit(1)
+        
+    with open(absolute_config_path, "r", encoding="utf-8") as f:
+        config = yaml.safe_load(f)
+        
+    # 1. Clear out duplicate initializations and instantiate the core coordinator cleanly
+    service = LLMService(config=config)
+    
+    # 2. Create the standalone tracer context node
+    trace_node = StepTrace(step_name="Compile tailored PDF bundle", step_index=0)
+    
+    # 3. Dispatches execution flow downstream to the orchestration matrix loop
+    print("🚀 Triggering execute_step loop...")
+    result = await service.execute_step("Process and compile final PDF bundle", trace_node)
+    
+    if trace_node.status == "SUCCESS":
+        print("\n🎉 SANDBOX TASK VERIFICATION CLEARED SUCCESSFULLY!")
+    else:
+        # Check if the diagnostic message contains the 503 or UNAVAILABLE error
+        diag_str = str(trace_node.diagnostic_msg)
+        if "503" in diag_str or "UNAVAILABLE" in diag_str:
+            print("\n⚠️  API SERVER ERROR: The live Gemini AI model is experiencing high demand.")
+            print("👉 [Free Tier Rate Limit]: This spike is temporary. Please wait a minute and try again.\n")
+        else:
+            print(f"\n❌ Sandbox Step Failed: {trace_node.diagnostic_msg}")
+            
+        sys.exit(69)
+
+
+if __name__ == "__main__":
+    asyncio.run(run_sandbox_validation())

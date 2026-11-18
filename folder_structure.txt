@@ -3,7 +3,13 @@ ai_cv_generator/
 │   ├── .data_cache/
 │   │   ├── cache/
 │   │   │   ├── cache_05f10d1e106302b984d179c85e454b95.json
-│   │   │   └── cache_99257c54109a9d23ce63be3984bbdff3.json
+│   │   │   ├── cache_873f69d1d536a86d69e8b1156dcbede9.json
+│   │   │   ├── cache_99257c54109a9d23ce63be3984bbdff3.json
+│   │   │   ├── cache_a2d0edd79ce55db6582d005e5356eb8e.json
+│   │   │   ├── cache_a3e8e4307c0a9c77ba441b6703140001.json
+│   │   │   ├── cache_bc8ed44625b924909ae98d7c83a7c91e.json
+│   │   │   ├── cache_cd8b21c19ca02f046dc8a6fd8d16ced5.json
+│   │   │   └── cache_f9b7311c50ae9be539ea1d7e45675403.json
 │   │   └── my_cache.json
 │   ├── config/
 │   │   ├── agent_config.yaml
@@ -26,8 +32,89 @@ ai_cv_generator/
 │   │   │   └── telemetry.py
 │   │   └── __init__.py
 │   └── main.py
+├── bin/
+│   └── Debug/
+│       └── net10.0-windows/
 ├── Front_End/
-│   └── generate_cv_gui.ps1
+│   ├── TalentSource.Desktop/
+│   │   ├── bin/
+│   │   │   └── Debug/
+│   │   │       ├── net10.0-windows/
+│   │   │       │   ├── TalentSource.Desktop.deps.json
+│   │   │       │   ├── TalentSource.Desktop.dll
+│   │   │       │   ├── TalentSource.Desktop.exe
+│   │   │       │   ├── TalentSource.Desktop.pdb
+│   │   │       │   └── TalentSource.Desktop.runtimeconfig.json
+│   │   │       └── net8.0-windows/
+│   │   ├── obj/
+│   │   │   ├── Debug/
+│   │   │   │   ├── net10.0-windows/
+│   │   │   │   │   ├── ref/
+│   │   │   │   │   │   └── TalentSource.Desktop.dll
+│   │   │   │   │   ├── refint/
+│   │   │   │   │   │   └── TalentSource.Desktop.dll
+│   │   │   │   │   ├── Views/
+│   │   │   │   │   │   ├── MainWindow.baml
+│   │   │   │   │   │   └── MainWindow.g.cs
+│   │   │   │   │   ├── .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+│   │   │   │   │   ├── App.g.cs
+│   │   │   │   │   ├── apphost.exe
+│   │   │   │   │   ├── TalentSource.Desktop.AssemblyInfo.cs
+│   │   │   │   │   ├── TalentSource.Desktop.AssemblyInfoInputs.cache
+│   │   │   │   │   ├── TalentSource.Desktop.assets.cache
+│   │   │   │   │   ├── TalentSource.Desktop.csproj.CoreCompileInputs.cache
+│   │   │   │   │   ├── TalentSource.Desktop.csproj.FileListAbsolute.txt
+│   │   │   │   │   ├── TalentSource.Desktop.dll
+│   │   │   │   │   ├── TalentSource.Desktop.g.resources
+│   │   │   │   │   ├── TalentSource.Desktop.GeneratedMSBuildEditorConfig.editorconfig
+│   │   │   │   │   ├── TalentSource.Desktop.genruntimeconfig.cache
+│   │   │   │   │   ├── TalentSource.Desktop.GlobalUsings.g.cs
+│   │   │   │   │   ├── TalentSource.Desktop.pdb
+│   │   │   │   │   ├── TalentSource.Desktop.sourcelink.json
+│   │   │   │   │   ├── TalentSource.Desktop_dba2jurv_wpftmp.AssemblyInfo.cs
+│   │   │   │   │   ├── TalentSource.Desktop_dba2jurv_wpftmp.AssemblyInfoInputs.cache
+│   │   │   │   │   ├── TalentSource.Desktop_dba2jurv_wpftmp.assets.cache
+│   │   │   │   │   ├── TalentSource.Desktop_dba2jurv_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+│   │   │   │   │   ├── TalentSource.Desktop_dba2jurv_wpftmp.GlobalUsings.g.cs
+│   │   │   │   │   ├── TalentSource.Desktop_dba2jurv_wpftmp.sourcelink.json
+│   │   │   │   │   ├── TalentSource.Desktop_j5u0hcm3_wpftmp.AssemblyInfo.cs
+│   │   │   │   │   ├── TalentSource.Desktop_j5u0hcm3_wpftmp.AssemblyInfoInputs.cache
+│   │   │   │   │   ├── TalentSource.Desktop_j5u0hcm3_wpftmp.assets.cache
+│   │   │   │   │   ├── TalentSource.Desktop_j5u0hcm3_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+│   │   │   │   │   ├── TalentSource.Desktop_j5u0hcm3_wpftmp.GlobalUsings.g.cs
+│   │   │   │   │   ├── TalentSource.Desktop_j5u0hcm3_wpftmp.sourcelink.json
+│   │   │   │   │   └── TalentSource.Desktop_MarkupCompile.cache
+│   │   │   │   └── net8.0-windows/
+│   │   │   │       ├── ref/
+│   │   │   │       ├── refint/
+│   │   │   │       ├── Views/
+│   │   │   │       ├── .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+│   │   │   │       ├── TalentSource.Desktop.AssemblyInfo.cs
+│   │   │   │       ├── TalentSource.Desktop.AssemblyInfoInputs.cache
+│   │   │   │       ├── TalentSource.Desktop.assets.cache
+│   │   │   │       ├── TalentSource.Desktop.GeneratedMSBuildEditorConfig.editorconfig
+│   │   │   │       └── TalentSource.Desktop.GlobalUsings.g.cs
+│   │   │   ├── project.assets.json
+│   │   │   ├── project.nuget.cache
+│   │   │   ├── TalentSource.Desktop.csproj.nuget.dgspec.json
+│   │   │   ├── TalentSource.Desktop.csproj.nuget.g.props
+│   │   │   ├── TalentSource.Desktop.csproj.nuget.g.targets
+│   │   │   ├── TalentSource.Desktop_dba2jurv_wpftmp.csproj.nuget.dgspec.json
+│   │   │   ├── TalentSource.Desktop_dba2jurv_wpftmp.csproj.nuget.g.props
+│   │   │   ├── TalentSource.Desktop_dba2jurv_wpftmp.csproj.nuget.g.targets
+│   │   │   ├── TalentSource.Desktop_j5u0hcm3_wpftmp.csproj.nuget.dgspec.json
+│   │   │   ├── TalentSource.Desktop_j5u0hcm3_wpftmp.csproj.nuget.g.props
+│   │   │   └── TalentSource.Desktop_j5u0hcm3_wpftmp.csproj.nuget.g.targets
+│   │   ├── Services/
+│   │   │   └── ProcessBridge.cs
+│   │   ├── Views/
+│   │   │   ├── MainWindow.xaml
+│   │   │   └── MainWindow.xaml.cs
+│   │   ├── App.xaml
+│   │   ├── App.xaml.cs
+│   │   ├── AssemblyInfo.cs
+│   │   └── TalentSource.Desktop.csproj
+│   └── TalentSource.sln
 ├── Output/
 │   ├── Output Archive/
 │   │   ├── Candidate_CV_with_qualifications.pdf
@@ -56,8 +143,11 @@ ai_cv_generator/
 │   │   └── T_La_Grange_NOSA_Certificate.pdf
 │   ├── job_spec.txt
 │   ├── my_cv.json
+│   ├── my_cv.json.bak
+│   ├── my_cv.json.bak2
 │   └── user_profile.json
 ├── .gitignore
+├── CHANGELOG.md
 ├── LICENSE
 ├── README.md
 └── requirements.txt
