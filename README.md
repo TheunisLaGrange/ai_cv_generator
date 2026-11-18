@@ -1,90 +1,87 @@
-# 📄 AI CV Generator
+# 📄 AI CV Generator & Optimization Matrix
 
-A modular Python pipeline powered by **Google Gemini** that tailors CVs to specific job specifications using evidence-based prompting, smart local caching, and automated ReportLab/PyPDF document compilation.
+A highly modular, decoupled cross-platform pipeline powered by **Google Gemini** that tailors professional CVs to target job specifications using evidence-based prompt engineering, content-hashed disk caching, and automated ReportLab document compilation. The system interfaces with a high-performance C# desktop control deck.
 
 ## ✨ Key Features
 
-* **🔒 Strict Data & Logic Separation:** Keeps personal CV data, job specifications, and qualification certificates isolated inside `User_Data/` (ignored by Git) while storing generated artifacts in `Output/`.
-* **🏗️ Refactored Architecture:** Clean separation of concerns with a standalone Python `Back_End/` engine and a Windows PowerShell `Front_End/` GUI wrapper.
-* **🧠 Cognitive Templating:** Decouples prompt engineering from application code by routing text orchestration through configuration files (`config/cognitive_templates.yaml`).
-* **🎯 Evidence-Based AI Tailoring:** Uses structured Pydantic schemas and anti-hallucination guardrails to filter, reorder, and rephrase your **Professional Profile** and **Key Skills** to match target job descriptions without fabricating experience.
-* **⚡ Dual-Mode Local Caching:** Supports both static cache overrides (`enforce_local_cache: true`) and SHA-256 content-hashed dynamic disk caching to eliminate redundant API calls during testing.
-* **📊 Integrated Telemetry & Diagnostics:** Embedded system tracking (`diagnostics/`) that runs runtime schema validations and telemetry traces to audit LLM pipeline execution.
-* **📑 Automated Dual-PDF Compilation:** Generates a clean, ATS-friendly base CV via **ReportLab** (`*_without_qualifications.pdf`) and automatically merges supporting credential PDFs via **PyPDF** (`*_with_qualifications.pdf`).
+* **🔒 Strict Data & Logic Separation:** Personal background metrics, target specifications, and certificate documents are strictly containerized inside `User_Data/` (fully ignored by source control tracking).
+* **🏗️ Production-Grade Architecture:** Clean separation of concerns featuring an independent Python `Back_End/` runtime engine and a native C# WPF desktop control layout (`Front_End/`) running an asynchronous interprocess execution bridge.
+* **🖥️ Immersive Dark-Mode Interface:** A thread-safe WPF dashboard window utilizing direct Windows DWM interop to enforce dark-themed system title bars and custom profile icon embeddings.
+* **🧠 Cognitive Templating:** Decouples prompt orchestration from core application code by moving structural instructions, personas, and targets out into dedicated layout configuration profiles (`config/cognitive_templates.yaml`).
+* **⚡ Content-Hashed Local Caching:** Combines static data-cache locks (`enforce_local_cache: true`) with automated SHA-256 validation comparisons over raw text arrays to entirely eliminate redundant remote AI API call metrics during document styling passes.
+* **📂 Fluid Workflow Utilities:** Standalone internal processing tools (`src/utils/file_opener.py`) that trigger safe, non-blocking OS kernel level handshakes to initialize document modification windows directly from front-end control buttons.
+* **📑 Automated Dual-PDF Compilation:** Synthesizes an ATS-compliant base document via **ReportLab** (`*_without_qualifications.pdf`) and leverages **PyPDF** to intelligently bind verified credential portfolios (`*_with_qualifications.pdf`) instantly.
 
 ## 🏗️ Project Structure
 
 ```text
 ai_cv_generator/
-├── Back_End/                   # 🐍 Python Pipeline Engine
-│   ├── .data_cache/            # ⚡ Content-hashed dynamic disk cache
+├── Back_End/                       # 🐍 Python Core Pipeline Engine
+│   ├── .data_cache/                # ⚡ Content-hashed dynamic disk cache
 │   ├── config/
-│   │   ├── agent_config.yaml       # ⚙️ Model selection, path settings, and cache flags
+│   │   ├── agent_config.yaml       # ⚙️ Model runtime selection, tracking paths, and flags
 │   │   └── cognitive_templates.yaml # 🧠 Decoupled system prompts and LLM templates
 │   ├── sandbox/
-│   │   └── app_sandbox.py          # 🧪 Execution harness and pipeline sandbox
+│   │   └── app_sandbox.py          # 🧪 Execution harness and pipeline validation sandbox
 │   ├── src/
 │   │   ├── core/
-│   │   │   ├── llm_service.py      # 🧠 Cache router and core pipeline coordinator
-│   │   │   └── workers/
-│   │   │       ├── extractor.py    # 📥 Input loader (fixes cached path isolation bugs)
-│   │   │       ├── optimizer.py    # 🤖 Asynchronous Gemini validation & Pydantic parsing
-│   │   │       └── compiler.py     # 🖨️ ReportLab layout engine & PyPDF merger
-│   │   └── diagnostics/            # 📊 Telemetry and Auditing Layer
-│   │       ├── analyzer.py         # 🔍 Validation engine for structured data
-│   │       └── telemetry.py        # 📋 System log and performance tracking
-│   └── main.py                 # 🚀 Python backend entry point
-├── Front_End/                  # 🖥️ User Interface Layer
-│   └── generate_cv_gui.ps1     # 💎 WPF-based Windows PowerShell GUI wrapper
-├── Sample_User_Data/           # 📋 Ready-to-use mock dataset for testing
-│   ├── job_spec.txt
-│   ├── my_cv.json
-│   └── user_profile.json
-├── User_Data/                  # 🔒 Private User Repository (Git Ignored)
-│   ├── Qualifications/         # 🎓 Certificates and trade credentials
-│   ├── job_spec.txt
-│   ├── my_cv.json
-│   └── user_profile.json
-├── Output/                     # 📂 Production Outputs & Compiled PDF Artifacts
-├── requirements.txt            # 📦 Python package dependencies
-└── LICENSE                     # ⚖️ MIT License
+│   │   │   ├── workers/
+│   │   │   │   ├── compiler.py     # 🖨️ ReportLab layout engine & PyPDF merger
+│   │   │   │   ├── extractor.py    # 📥 Input loader (resolves workspace path mappings)
+│   │   │   │   └── optimizer.py    # 🤖 Asynchronous Gemini validation & Pydantic parsing
+│   │   │   ├── engine.py
+│   │   │   ├── llm_service.py      # 🧠 Cache router and pipeline execution coordinator
+│   │   │   └── state.py
+│   │   ├── diagnostics/            # 📊 Telemetry and Auditing Layer
+│   │   │   ├── analyzer.py         # 🔍 Validation engine for structured datasets
+│   │   │   └── telemetry.py        # 📋 System log tracking and runtime metrics
+│   │   └── utils/                  # 🛠️ Independent Shared Utility Packages
+│   │       └── file_opener.py      # 📂 Native OS application wrapper utility
+│   └── main.py                     # 🚀 Central Traffic Cop & Command Line Router
+├── Front_End/                      # 🖥️ Client User Interface Tiers
+│   └── TalentSource.Desktop/       # 💻 Native C# WPF Desktop Control Deck Application
+│       ├── Assets/                 # 🎨 Embedded application graphics and branding resources
+│       ├── Services/
+│       │   └── ProcessBridge.cs    # 🌉 Asynchronous thread-safe interprocess execution engine
+│       ├── Views/
+│       │   ├── MainWindow.xaml     # 🎨 Layout definitions and custom element components
+│       │   └── MainWindow.xaml.cs  # 🧠 UI business logic and DWM platform interop
+│       └── TalentSource.Desktop.csproj
+├── pipeline/                       # ⚙️ DevOps Automation & Continuous Integration Framework
+│   ├── build_release.ps1           # 📦 Automation script for compilation assets
+│   ├── step_4_preflight_audit.ps1  # 🔍 Pre-release code evaluation pass script
+│   └── step_5_push_project.ps1     # 🚀 Core system configuration sync script
+├── User_Data/                      # 🔒 Private User Repository (Git Ignored Context)
+│   ├── Qualifications/             # 🎓 Trade credentials and certificate documents
+│   └── job_spec.txt                # 📌 Target job description advertisement text asset
+├── Output/                         # 📂 Production Outputs & Compiled PDF Artifacts
+└── requirements.txt                # 📦 Python package dependency manifests
 ```
 
 ## 🚀 Quick Start
 
-### 1. 📦 Clone and Install Dependencies
-```bash
-git clone https://github.com
+### 1. 📦 Set Up the Python Environment
+```powershell
 cd ai_cv_generator/Back_End
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r ../requirements.txt
 ```
 
-### 2. 🔑 Configure Your Gemini API Key
-Create a `.env` file inside `Back_End/` and add your Google Gemini API key:
+### 2. 🔑 Configure Environment Settings
+Create a `.env` file inside `Back_End/` to store your credentials safely:
 ```env
 GEMINI_API_KEY=your_google_gemini_api_key_here
 ```
 
-### 3. 📂 Set Up Your User Data
-Ensure your input documents match the directory setup:
-* 📝 Edit `User_Data/my_cv.json` with your experience, custom JSON formats, and skills.
-* 👤 Edit `User_Data/user_profile.json` with certificate names and PDF naming options.
-* 🎓 Place supporting credential PDFs inside `User_Data/Qualifications/`.
-* 📌 Paste the target job advertisement into `User_Data/job_spec.txt`.
-
-### 4. ▶️ Run the Generator
-Launch the standalone backend:
-```bash
-python main.py
-```
-Or execute the user interface from the root directory:
+### 3. 🖥️ Launch the Desktop Control Deck
+Navigate into your front-end view directory path and fire up the interface controller:
 ```powershell
-./Front_End/generate_cv_gui.ps1
+cd ../Front_End/TalentSource.Desktop
+dotnet run
 ```
 
-## ⚙️ Configuration (`Back_End/config/agent_config.yaml`)
+## ⚙️ Core Configuration Rules
 
-* **`enforce_local_cache: false`** *(Default)*: Evaluates an active SHA-256 hash comparison across `job_spec.txt` + `my_cv.json`. Queries live Gemini endpoints only on cache misses.
-* **`enforce_local_cache: true`**: Locks data loading to `.data_cache/my_cache.json` for rapid, offline layout changes, report validation, and PDF styling fixes.
+* **`--edit-spec`**: Executed by the desktop control panel to launch the local text engine context handler for manual editing loops before starting a compilation run.
+* **`--run-pipeline`**: Instructs the core engine to spin up background workers (`extractor.py` → `optimizer.py` → `compiler.py`) to parse, optimize, and build output documents.
