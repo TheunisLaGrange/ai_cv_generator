@@ -3,16 +3,29 @@ ai_cv_generator/
 │   ├── .data_cache/
 │   │   ├── cache/
 │   │   │   ├── cache_05f10d1e106302b984d179c85e454b95.json
+│   │   │   ├── cache_0f8732dfd593af79be195c75c72cf8ac.json
+│   │   │   ├── cache_16a1b64e6db630a93ed89a3ad87fa7cb.json
+│   │   │   ├── cache_1f86ca2ef5947b5e18c6fd8d505a1425.json
+│   │   │   ├── cache_216628e4078b1ac0465ef34c6dc2271d.json
+│   │   │   ├── cache_348a27c86fff83c35997abca797edc4f.json
+│   │   │   ├── cache_3fecfa510bfc24b00cafdb3e9e113376.json
+│   │   │   ├── cache_46c0d9f65b8206bd8379b6235b3d2ad8.json
+│   │   │   ├── cache_5e4ad0cab480e998f458cf1319faa49d.json
+│   │   │   ├── cache_6841f37164651d030cf31c1cbbd46efd.json
+│   │   │   ├── cache_7918b01c14450d78ce17571fb5b029b2.json
+│   │   │   ├── cache_7ae3b410af6e19688b0703a30c0905d8.json
 │   │   │   ├── cache_873f69d1d536a86d69e8b1156dcbede9.json
 │   │   │   ├── cache_99257c54109a9d23ce63be3984bbdff3.json
 │   │   │   ├── cache_a2d0edd79ce55db6582d005e5356eb8e.json
 │   │   │   ├── cache_a3e8e4307c0a9c77ba441b6703140001.json
 │   │   │   ├── cache_bc8ed44625b924909ae98d7c83a7c91e.json
+│   │   │   ├── cache_c5c8b8cededf86972c85002170e1cd90.json
 │   │   │   ├── cache_cd8b21c19ca02f046dc8a6fd8d16ced5.json
 │   │   │   └── cache_f9b7311c50ae9be539ea1d7e45675403.json
 │   │   └── my_cache.json
 │   ├── config/
 │   │   ├── agent_config.yaml
+│   │   ├── agent_config.yaml.bak
 │   │   └── cognitive_templates.yaml
 │   ├── sandbox/
 │   │   └── app_sandbox.py
@@ -20,6 +33,7 @@ ai_cv_generator/
 │   │   ├── core/
 │   │   │   ├── workers/
 │   │   │   │   ├── compiler.py
+│   │   │   │   ├── compiler.py.bak
 │   │   │   │   ├── extractor.py
 │   │   │   │   └── optimizer.py
 │   │   │   ├── __init__.py
@@ -30,13 +44,18 @@ ai_cv_generator/
 │   │   │   ├── __init__.py
 │   │   │   ├── analyzer.py
 │   │   │   └── telemetry.py
+│   │   ├── utils/
+│   │   │   └── file_opener.py
 │   │   └── __init__.py
-│   └── main.py
+│   ├── main.py
+│   └── main.py.bak
 ├── bin/
 │   └── Debug/
 │       └── net10.0-windows/
 ├── Front_End/
 │   ├── TalentSource.Desktop/
+│   │   ├── Assets/
+│   │   │   └── app_icon.png
 │   │   ├── bin/
 │   │   │   └── Debug/
 │   │   │       ├── net10.0-windows/
@@ -121,7 +140,9 @@ ai_cv_generator/
 │   │   ├── Candidate_CV_without_qualifications.pdf
 │   │   ├── target.json
 │   │   ├── Theunis_La_Grange_with_qualifications.pdf
+│   │   ├── Theunis_La_Grange_with_qualifications_1.pdf
 │   │   ├── Theunis_La_Grange_without_qualifications.pdf
+│   │   ├── Theunis_La_Grange_without_qualifications_1.pdf
 │   │   └── Theunis_La_Grange_without_qualifications_arc.pdf
 │   ├── target.json
 │   ├── Theunis_La_Grange_with_qualifications.pdf

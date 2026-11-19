@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TalentSource.Desktop")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1a7ea985eb66009eaa4fc288c1a31e8f02a1e8b7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e27a6a5fcc0288ccd80e20b38c8eaa61725be644")]
 [assembly: System.Reflection.AssemblyProductAttribute("TalentSource.Desktop")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TalentSource.Desktop")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

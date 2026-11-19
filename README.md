@@ -1,6 +1,12 @@
 # 📄 AI CV Generator & Optimization Matrix
 
-A highly modular, decoupled cross-platform pipeline powered by **Google Gemini** that tailors professional CVs to target job specifications using evidence-based prompt engineering, content-hashed disk caching, and automated ReportLab document compilation. The system interfaces with a high-performance C# desktop control deck.
+A highly modular, decoupled cross-platform pipeline that tailors professional CVs to target job specifications using evidence-based prompt engineering, content-hashed disk caching, and automated ReportLab document compilation. The system interfaces with a high-performance C# desktop control deck.
+
+## ⚙️ Core Architecture Matrix
+
+- **Frontend Desktop Tier**: Implemented with C# / .NET / WPF, providing a dark-themed control surface utilizing native DWM immersive design characteristics. It hooks into background process streams asynchronously using dynamic process bridge handlers.
+- **Cognitive Execution Layer**: Powered by ultra-low latency Groq API cloud infrastructure running single-pass contextual mappings. It processes data using highly optimized schemas defined in local configuration templates.
+- **Document Compiling Engine**: Constructed with ReportLab and PyPDF, mapping customized data vectors cleanly to dynamic PDF flowables while automatically bundling verified certification files found on local disk.
 
 ## ✨ Key Features
 
@@ -71,7 +77,7 @@ pip install -r ../requirements.txt
 ### 2. 🔑 Configure Environment Settings
 Create a `.env` file inside `Back_End/` to store your credentials safely:
 ```env
-GEMINI_API_KEY=your_google_gemini_api_key_here
+GROQ_API_KEY=your_grok_gemini_api_key_here
 ```
 
 ### 3. 🖥️ Launch the Desktop Control Deck
@@ -81,7 +87,24 @@ cd ../Front_End/TalentSource.Desktop
 dotnet run
 ```
 
-## ⚙️ Core Configuration Rules
+## 🚀 Execution & Command Line Interfaces
 
-* **`--edit-spec`**: Executed by the desktop control panel to launch the local text engine context handler for manual editing loops before starting a compilation run.
-* **`--run-pipeline`**: Instructs the core engine to spin up background workers (`extractor.py` → `optimizer.py` → `compiler.py`) to parse, optimize, and build output documents.
+The backend engine parses runtime tasks using Python's standard argument libraries to enforce strict separation of program logic and configuration boundaries:
+
+```bash
+# Display core operational manual text
+python main.py -h
+
+# Execute automated extraction and customization matrix pipelines
+python main.py --run-pipeline --config "path/to/config.yaml"
+
+# Open the job specification text asset for manual preparation
+python main.py --edit-spec
+
+# Open the profile JSON asset for manual verification
+python main.py --edit-cv
+```
+
+## 🛠️ Environmental Settings
+
+To maintain stability across modern system architectures, the execution engine forces internal pipelines into absolute UTF-8 operating modes (`PYTHONUTF8=1`), neutralizing common character-map conversion crashes when processing complex engineering characters like $CO_2$ or custom hyphens.

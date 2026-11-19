@@ -3,37 +3,33 @@ import json
 import hashlib
 from typing import Dict, List, Any
 from pathlib import Path
-from google import genai
+from groq import AsyncGroq  # 🔄 Swapped from google.genai
 from src.diagnostics.telemetry import StepTrace
 
-# Import specialized atomic task components from your package folder
 from src.core.workers.extractor import load_cv_source_data
 from src.core.workers.optimizer import run_cognitive_pipeline
 from src.core.workers.compiler import compile_document_package
 
 class LLMService:
-    """Central traffic coordinator directing conditional caching and live data pipelines."""
+    """Central traffic coordinator directing conditional caching and live Groq data pipelines."""
     
     def __init__(self, config: dict):
         self.config = config
-        api_key = os.getenv("GEMINI_API_KEY")
+        
+        # 🔑 Authenticate via Groq standard environment keys
+        api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
-            raise ValueError("CRITICAL: GEMINI_API_KEY environment variable is unassigned.")
-        self.client = genai.Client(api_key=api_key)
+            raise ValueError("CRITICAL: GROQ_API_KEY environment variable is unassigned.")
+        self.client = AsyncGroq(api_key=api_key)
         
-        # Resolve path boundaries cleanly relative to ai_cv_generator root workspace
         self.backend_dir = Path(__file__).resolve().parent.parent.parent
-        self.base_dir = self.backend_dir.parent  # This maps to the overall project root
+        self.base_dir = self.backend_dir.parent 
         
-        # 🔬 Align directly to your real physical layout
         self.input_dir = self.base_dir / "User_Data"
         self.output_dir = self.base_dir / "Output"
         self.cache_dir = self.backend_dir / ".data_cache" / "cache"
 
-        # Load cognitive templates from config directory
-        # 🎯 FIXED LOOKUP: Target the configuration folder sitting inside Back_End
         templates_path = self.backend_dir / "config" / "cognitive_templates.yaml"
-
         if not templates_path.exists():
             raise FileNotFoundError(f"Missing required engine templates file: {templates_path}")
             
@@ -46,7 +42,6 @@ class LLMService:
         return hashlib.md5(combined).hexdigest()
 
     async def generate_plan(self, objective: str) -> List[str]:
-        print(f"[Engine Core] Instantiating synchronized CV customization trajectory stages...")
         return [
             "Fetch and read local source files",
             "Process profile rewrite and extract technical skills via structured AI templates",
@@ -59,17 +54,15 @@ class LLMService:
         cache_enforced = self.config.get("enforce_local_cache", False)
 
         try:
-            # 🎯 FIXED PATH: Match the exact 1-argument definition in your extractor.py file
             source_data = load_cv_source_data(self.base_dir)
-
             my_cv_data = source_data["my_cv"]
             raw_experience_only = my_cv_data.get("Professional Experience", [])
 
+            # 🛠️ QUICK FIX: Initialize with a safe default fallback string
+            data_source_label = "UNKNOWN_SOURCE"
+
             if cache_enforced:
-                # 🎯 FIXED: Look in .data_cache/ instead of .data_cache/cache/
                 static_cache_path = self.cache_dir.parent / "my_cache.json"
-                
-                data_source_label = f"STATIC CACHE ({static_cache_path.name})"
                 print(f"🎯 Configuration Mandate: Local Cache Enforced. Loading: {static_cache_path.name}")
                 with open(static_cache_path, "r", encoding="utf-8") as f:
                     ai_generated_payload = json.load(f)
@@ -79,17 +72,15 @@ class LLMService:
                 
                 if dynamic_cache_path.exists():
                     data_source_label = f"DYNAMIC DISK CACHE ({dynamic_cache_path.name})"
-                    print(f"🎯 Dynamic Cache Hit! Loading text vectors: {dynamic_cache_path.name}")
                     with open(dynamic_cache_path, "r", encoding="utf-8") as f:
                         ai_generated_payload = json.load(f)
                 else:
-                    data_source_label = f"LIVE GEMINI API ({model_name})"
-                    print(f"🌐 Dynamic Cache Miss. Dispatching requests to live endpoint: [{model_name}]...")
+                    data_source_label = f"LIVE GROQ API ({model_name})"
+                    print(f"🌐 Dynamic Cache Miss. Dispatching requests to Groq endpoint: [{model_name}]...")
                     
-                    # 🌟 PACK TEMPLATES: Inject the cognitive templates dictionary directly into source_data
                     source_data["cognitive_templates"] = self.cognitive_templates
                     
-                    # 🚀 ALIGNED SIGNATURE: Pass exactly 3 positional arguments to match optimizer.py
+                    # 🚀 Run the single-pass optimized pipeline
                     ai_generated_payload = await run_cognitive_pipeline(
                         self.client, 
                         model_name, 
@@ -99,22 +90,40 @@ class LLMService:
                         json.dump(ai_generated_payload, f, indent=4)
                     print("💾 Live AI response successfully cached to local disk.")
 
+            # =====================================================================
+            # 🛡️ UNICODE ARTIFACT SANITIZATION LAYER (Fixes the black block issue)
+            # =====================================================================
+            def sanitize_text(text: Any) -> Any:
+                if isinstance(text, str):
+                    # Replace non-breaking hyphens (\u2011) with standard hyphens
+                    text = text.replace("\u2011", "-").replace("‑", "-")
+                    # Replace narrow non-breaking spaces (\u202f) or generic non-breaking spaces (\u00a0)
+                    text = text.replace("\u202f", " ").replace("\u00a0", " ")
+                    return text
+                elif isinstance(text, list):
+                    return [sanitize_text(item) for item in text]
+                elif isinstance(text, dict):
+                    return {k: sanitize_text(v) for k, v in text.items()}
+                return text
+
+            # Sanitize the entire raw AI payload before processing keys
+            ai_generated_payload = sanitize_text(ai_generated_payload)
+            # =====================================================================
 
             clean_payload = {k.lower().strip().replace(" ", "_"): v for k, v in ai_generated_payload.items()}
             
             if "professional_profile" not in clean_payload or not clean_payload["professional_profile"]:
-                raise ValueError(f"Missing 'professional_profile' in payload keys: {list(clean_payload.keys())}")
+                raise ValueError("Missing 'professional_profile' in payload keys.")
             if "key_skills_and_technical_expertise" not in clean_payload or not clean_payload["key_skills_and_technical_expertise"]:
-                raise ValueError(f"Missing 'key_skills_and_technical_expertise' in payload keys: {list(clean_payload.keys())}")
+                raise ValueError("Missing 'key_skills_and_technical_expertise' in payload keys.")
 
             profile_array = clean_payload["professional_profile"]
             skills_array = clean_payload["key_skills_and_technical_expertise"]
 
             print("\n📊 [DIAGNOSTIC SOURCE REPORT]")
             print(f"   • Active Payload Origin : {data_source_label}")
-            print(f"   • Professional Profile  : Loaded {len(profile_array)} items from [{data_source_label}]")
-            print(f"   • Key Skills & Expertise: Loaded {len(skills_array)} items from [{data_source_label}]")
-            print(f"   • Experience & Contact  : Loaded directly from [my_cv.json]\n")
+            print(f"   • Professional Profile  : Loaded {len(profile_array)} items")
+            print(f"   • Key Skills & Expertise: Loaded {len(skills_array)} items\n")
 
             final_target_json = {
                 "Contact Details": my_cv_data.get("Contact Details", {}),
@@ -132,10 +141,6 @@ class LLMService:
                 json.dump(final_target_json, f, indent=4)
             print(f"   ✅ Dynamic target.json written cleanly to: {target_json_path}")
 
-            # Compile layout execution pass
-            # compile_document_package(self.base_dir, target_json_path, self.config.get("pdf_preferences", {})
-            # )
-            # 🚀 MATCHING GITHUB SIGNATURE: Pass self.base_dir, final_target_json dictionary, and preferences
             compile_document_package(
                 self.base_dir, 
                 final_target_json, 

@@ -6,6 +6,41 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib import colors
 from pypdf import PdfWriter
 
+# =====================================================================
+# 🔬 REPORTLAB MARKUP CONVERSION LAYER
+# =====================================================================
+def clean_text_for_reportlab(text: str) -> str:
+    """
+    Converts raw text, unicode subscripts, and superscripts into 
+    ReportLab-compatible HTML markup tags.
+    """
+    if not text:
+        return ""
+    
+    # 1. Clean up common XML entities so the Paragraph parser doesn't crash
+    text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    
+    # 2. Map common unicode subscripts/superscripts to HTML tags
+    unicode_map = {
+        # Subscripts
+        "₀": "<sub>0</sub>", "₁": "<sub>1</sub>", "₂": "<sub>2</sub>", 
+        "₃": "<sub>3</sub>", "₄": "<sub>4</sub>", "₅": "<sub>5</sub>",
+        "₆": "<sub>6</sub>", "₇": "<sub>7</sub>", "₈": "<sub>8</sub>", "₉": "<sub>9</sub>",
+        # Superscripts
+        "⁰": "<sup>0</sup>", "¹": "<sup>1</sup>", "²": "<sup>2</sup>", 
+        "³": "<sup>3</sup>", "⁴": "<sup>4</sup>", "⁵": "<sup>5</sup>",
+        "⁶": "<sup>6</sup>", "⁷": "<sup>7</sup>", "⁸": "<sup>8</sup>", "⁹": "<sup>9</sup>"
+    }
+    
+    for uni_char, html_tag in unicode_map.items():
+        text = text.replace(uni_char, html_tag)
+        
+    # 3. Fallback: Catch raw escaped literal sequences if they slip through as text
+    text = text.replace(r"\u2082", "<sub>2</sub>")
+    text = text.replace(r"\u2072", "<sup>2</sup>")
+    
+    return text
+
 def compile_document_package(base_dir: Path, target_data: dict, user_profile: dict):
     """Generates the base CV PDF and appends verification certificates using dynamic user profile settings."""
     output_folder = base_dir / "Output"
@@ -14,7 +49,6 @@ def compile_document_package(base_dir: Path, target_data: dict, user_profile: di
     file_prefix = user_profile.get("output_file_prefix", "Theunis_La_Grange")
     cv_without_qual_path = output_folder / f"{file_prefix}_without_qualifications.pdf"
     
-    # SimpleDocTemplate Layout Configuration
     doc = SimpleDocTemplate(
         str(cv_without_qual_path), 
         pagesize=letter, 
@@ -38,11 +72,20 @@ def compile_document_package(base_dir: Path, target_data: dict, user_profile: di
     if contact:
         default_name = user_profile.get("default_full_name", "CANDIDATE NAME")
         default_role = user_profile.get("default_profession", "Technical Specialist")
-        story.append(Paragraph(contact.get("Full Name", default_name), title_style))
-        story.append(Paragraph(contact.get("Profession", default_role), subtitle_style))
-        story.append(Paragraph(f"<b>Address:</b> {contact.get('Address', '')}", contact_style))
-        story.append(Paragraph(f"<b>Cell:</b> {contact.get('Cell', '')}", contact_style))
-        story.append(Paragraph(f"<b>Mail:</b> {contact.get('Mail', '')}", contact_style))
+        
+        # Extract and sanitize dynamic fields independently 
+        name_val = clean_text_for_reportlab(contact.get("Full Name", default_name))
+        role_val = clean_text_for_reportlab(contact.get("Profession", default_role))
+        addr_val = clean_text_for_reportlab(contact.get('Address', ''))
+        cell_val = clean_text_for_reportlab(contact.get('Cell', ''))
+        mail_val = clean_text_for_reportlab(contact.get('Mail', ''))
+        
+        # 🎯 FIX: Wrap the sanitized values inside the structural markup strings safely
+        story.append(Paragraph(name_val, title_style))
+        story.append(Paragraph(role_val, subtitle_style))
+        story.append(Paragraph(f"<b>Address:</b> {addr_val}", contact_style))
+        story.append(Paragraph(f"<b>Cell:</b> {cell_val}", contact_style))
+        story.append(Paragraph(f"<b>Mail:</b> {mail_val}", contact_style))
         story.append(Spacer(1, 8))
 
     for section_title, section_content in target_data.items():
@@ -50,16 +93,20 @@ def compile_document_package(base_dir: Path, target_data: dict, user_profile: di
             continue
             
         header_group = [
-            Paragraph(section_title, heading_style),
+            Paragraph(clean_text_for_reportlab(section_title), heading_style),
             HRFlowable(width="100%", thickness=1, color=c_secondary, spaceBefore=6, spaceAfter=6)
         ]
         
         if isinstance(section_content, list) and section_content:
-            header_group.append(Paragraph(f"&bull;&nbsp;&nbsp;{section_content[0]}", bullet_style))
+            # 🎯 FIX: Pull the individual list element out BEFORE sanitizing it
+            sanitized_bullet_0 = clean_text_for_reportlab(section_content[0])
+            header_group.append(Paragraph(f"&bull;&nbsp;&nbsp;{sanitized_bullet_0}", bullet_style))
             story.append(KeepTogether(header_group))
             
             for item in section_content[1:]:
-                story.append(Paragraph(f"&bull;&nbsp;&nbsp;{item}", bullet_style))
+                sanitized_bullet_item = clean_text_for_reportlab(item)
+                story.append(Paragraph(f"&bull;&nbsp;&nbsp;{sanitized_bullet_item}", bullet_style))
+
         else:
             story.append(KeepTogether(header_group))
             
@@ -67,19 +114,16 @@ def compile_document_package(base_dir: Path, target_data: dict, user_profile: di
 
     doc.build(story)
 
-        # =====================================================================
-    # 🗂️ DYNAMIC CREDENTIALS AUTO-APPEND LAYER (No more JSON hardcoding)
+    # =====================================================================
+    # 🗂️ DYNAMIC CREDENTIALS AUTO-APPEND LAYER
     # =====================================================================
     qual_folder = base_dir / "User_Data" / "Qualifications"
     merger = PdfWriter()
     
-    # 1. First, load your cleanly generated, tailored base CV canvas
     print(f"📊 [PyPDF Layer] Loading tailored base CV file: {cv_without_qual_path.name}")
     merger.append(str(cv_without_qual_path))
     
-    # 2. Automatically scan the physical directory for your real certificates on disk
     if qual_folder.exists():
-        # Grab all PDF files, ignoring any hidden system files or backup markers
         found_certs = sorted(
             [f for f in qual_folder.iterdir() if f.suffix.lower() == '.pdf' and f.name != 'ID_of_T_La_Grange.pdf'],
             key=lambda x: x.name
@@ -91,14 +135,8 @@ def compile_document_package(base_dir: Path, target_data: dict, user_profile: di
     else:
         print(f"⚠️ [PyPDF Warning] Qualifications subfolder directory path not found: {qual_folder}")
 
-    # =====================================================================
-    # 💾 CLEAN FILE PREFIX RESOLUTION (Fixes your name prefix spacing issue)
-    # =====================================================================
-    # Enforce standard formatting for your final output target delivery file
-    # clean_prefix = "Theunis_La_Grange"
     cv_with_qual_path = output_folder / f"{file_prefix}_with_qualifications.pdf"
     
     merger.write(str(cv_with_qual_path))
     merger.close()
     print(f"🎉 SUCCESS: Unified credentials bundle package compiled to: {cv_with_qual_path.name}\n")
-

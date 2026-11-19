@@ -86,6 +86,14 @@ def main():
         action="store_true",
         help="Open the job specification text asset for manual verification/modification",
     )
+
+    # Add this argument definition under your other parameters inside main()
+    parser.add_argument(
+        "--edit-cv",
+        action="store_true",
+        help="Open the current resume json asset for manual verification/modification",
+    )
+
     parser.add_argument(
         "--run-pipeline",
         action="store_true",
@@ -101,17 +109,25 @@ def main():
 
     args = parser.parse_args()
 
-    # Pre-processing Step: Open file for editing
+    # Pre-processing Step 1: Open Job Spec
     if args.edit_spec:
-        # Safely anchor to your isolated User_Data block relative to the project root
         target_job_spec = PROJECT_ROOT / "User_Data" / "job_spec.txt"
-        
-        # 🎯 CHANGED: Replaced the folder emoji with a safe bracket label [File]
         print(f"[File] Requesting OS application handler for: {target_job_spec}")
-        
         try:
             open_target_file(str(target_job_spec))
             print("Handshake Success: File successfully launched for manual preparation.")
+            sys.exit(0)
+        except Exception as e:
+            print(f"❌ Error during manual file deployment: {e}", file=sys.stderr)
+            sys.exit(1)
+
+    # NEW: Pre-processing Step 2: Open CV File
+    elif args.edit_cv:
+        target_cv = PROJECT_ROOT / "User_Data" / "my_cv.json"
+        print(f"[File] Requesting OS application handler for: {target_cv}")
+        try:
+            open_target_file(str(target_cv))
+            print("Handshake Success: CV file successfully launched for manual modification.")
             sys.exit(0)
         except Exception as e:
             print(f"❌ Error during manual file deployment: {e}", file=sys.stderr)

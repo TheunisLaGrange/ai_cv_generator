@@ -34,10 +34,12 @@ namespace TalentSource.Desktop.Services
             {
                 try
                 {
+                    // Inside TalentSource.Desktop.Services.ProcessBridge -> ExecutePipelineAsync
                     var startInfo = new ProcessStartInfo
                     {
                         FileName = pythonExePath,
-                        Arguments = $"-u \"{mainScriptPath}\" --config \"{configPath}\"",
+                        // 🎯 FIX: Added the --run-pipeline switch right before the configuration parameter
+                        Arguments = $"-u \"{mainScriptPath}\" --run-pipeline --config \"{configPath}\"",
                         WorkingDirectory = Path.GetDirectoryName(mainScriptPath) ?? string.Empty, 
                         RedirectStandardOutput = true,
                         RedirectStandardError = true,
@@ -82,7 +84,8 @@ namespace TalentSource.Desktop.Services
         }
 
         // Inside TalentSource.Desktop.Services.ProcessBridge class
-        public async Task OpenTargetFileAsync(string pythonExePath, string mainScriptPath)
+        // Replace OpenTargetFileAsync inside TalentSource.Desktop.Services.ProcessBridge with this:
+        public async Task OpenAssetFileAsync(string pythonExePath, string mainScriptPath, string assetFlag)
         {
             if (!File.Exists(mainScriptPath))
             {
@@ -97,7 +100,8 @@ namespace TalentSource.Desktop.Services
                     var startInfo = new ProcessStartInfo
                     {
                         FileName = pythonExePath,
-                        Arguments = $"-u \"{mainScriptPath}\" --edit-spec",
+                        // 🎯 Dynamically injects --edit-spec or --edit-cv depending on the button pressed
+                        Arguments = $"-u \"{mainScriptPath}\" {assetFlag}",
                         WorkingDirectory = Path.GetDirectoryName(mainScriptPath) ?? string.Empty,
                         RedirectStandardOutput = true,
                         RedirectStandardError = true,
@@ -124,7 +128,6 @@ namespace TalentSource.Desktop.Services
                 }
             });
         }
-
 
         public void TerminatePipeline()
         {

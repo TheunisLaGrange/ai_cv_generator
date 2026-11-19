@@ -22,7 +22,7 @@ namespace TalentSource.Desktop.Views
         private const string PythonPath = @"C:\Users\User\AppData\Local\Programs\Python\Python312\python.exe";
         private const string ScriptPath = @"C:\PC Programming\Python\src\AI\Agent\02_Python_Source\ai_cv_generator\Back_End\main.py";
         private const string ConfigPath = @"C:\PC Programming\Python\src\AI\Agent\02_Python_Source\ai_cv_generator\Back_End\config\agent_config.yaml";
-
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -60,11 +60,16 @@ namespace TalentSource.Desktop.Views
 
         private async void OpenSpecButton_Click(object sender, RoutedEventArgs e)
         {
-            TerminalLogBox.AppendText("[System] Dispatching request to view file environment...\r\n");
-            
-            // Non-blocking fire-and-forget script routing execution 
-            await _bridge.OpenTargetFileAsync(PythonPath, ScriptPath);
+            // 🎯 FIX: Changed variable names to match your class constants
+            await _bridge.OpenAssetFileAsync(PythonPath, ScriptPath, "--edit-spec");
         }
+
+        private async void OpenCVButton_Click(object sender, RoutedEventArgs e)
+        {
+            // 🎯 FIX: Changed variable names to match your class constants
+            await _bridge.OpenAssetFileAsync(PythonPath, ScriptPath, "--edit-cv");
+        }
+
 
         private void UpdateTerminalLog(string logLine)
         {
